@@ -1,0 +1,173 @@
+# -*- coding: utf-8 -*-
+require File.join(File.dirname(__FILE__), './spec_helper')
+
+describe WrapExcel::Sheet do
+  before do
+    @dir = create_tmpdir
+    @book = WrapExcel::Book.open(@dir + '/simple.xls')
+    @sheet = @book[0]
+  end
+
+  after do
+    @book.close
+    rm_tmp(@dir)
+  end
+
+  describe "access sheet name" do
+    describe "#name" do
+      it 'get sheet1 name' do
+        @sheet.name.should eq 'Sheet1'
+      end
+    end
+
+    describe "#name=" do
+      it 'change sheet1 name to foo' do
+        @sheet.name = 'foo'
+        @sheet.name.should eq 'foo'
+      end
+    end
+  end
+
+  describe 'access cell' do
+    describe "#[]" do
+      context "access [0,0]" do
+        it { @sheet[0, 0].should be_kind_of WrapExcel::Cell }
+        it { @sheet[0, 0].value.should eq 'simple' }
+      end
+
+      context "access [0, 0], [0, 1], [2, 0]" do
+        it "should get every values" do
+          @sheet[0, 0].value.should eq 'simple'
+          @sheet[0, 1].value.should eq 'workbook'
+          @sheet[2, 0].value.should eq 'matz'
+        end
+      end
+    end
+
+    it "change a cell to 'foo'" do
+      @sheet[0, 0] = 'foo'
+      @sheet[0, 0].value.should eq 'foo'
+    end
+
+    describe '#each' do
+      it "should sort line in order of column" do
+        @sheet.each_with_index do |cell, i|
+          case i
+          when 0
+            cell.value.should eq 'simple'
+          when 1
+            cell.value.should eq 'workbook'
+          when 2
+            cell.value.should eq 'sheet1'
+          when 3
+            cell.value.should eq 'foo'
+          when 4
+            cell.value.should be_nil
+          when 5
+            cell.value.should eq 'foobaaa'
+          end
+        end
+      end
+    end
+
+    describe "#each_row" do
+      it "items should WrapExcel::Range" do
+        @sheet.each_row do |rows|
+          rows.should be_kind_of WrapExcel::Range
+        end
+      end
+
+      context "with argument 1" do
+        it 'should read from second row' do
+          @sheet.each_row(1) do |rows|
+            case rows.row
+            when 2
+              rows.values.should eq ['foo', nil, 'foobaaa']
+            when 3
+              rows.values.should eq ['matz', 'is', 'nice']
+            end
+          end
+        end
+      end
+    end
+
+    describe "#each_row_with_index" do
+      it "should read with index" do
+        @sheet.each_row_with_index do |rows, idx|
+          case idx
+          when 0
+            rows.values.should eq ['simple', 'workbook', 'sheet1']
+          when 1
+            rows.values.should eq ['foo', nil, 'foobaaa']
+          when 2
+            rows.values.should eq ['matz', 'is', 'nice']
+          end
+        end
+      end
+
+      context "with argument 1" do
+        it "should read from second row, index is started 0" do
+          @sheet.each_row_with_index(1) do |rows, idx|
+            case idx
+            when 0
+              rows.values.should eq ['foo', nil, 'foobaaa']
+            when 1
+              rows.values.should eq ['matz', 'is', 'nice']
+            end
+          end
+        end
+      end
+
+    end
+
+    describe "#each_column" do
+      it "items should WrapExcel::Range" do
+        @sheet.each_column do |columns|
+          columns.should be_kind_of WrapExcel::Range
+        end
+      end
+
+      context "with argument 1" do
+        it "should read from second column" do
+          @sheet.each_column(1) do |columns|
+            case columns.column
+            when 2
+              columns.values.should eq ['workbook', nil, 'is']
+            when 3
+              columns.values.should eq ['sheet1', 'foobaaa', 'nice']
+            end
+          end
+        end
+      end
+    end
+
+    describe "#each_column_with_index" do
+      it "should read with index" do
+        @sheet.each_column_with_index do |columns, idx|
+          case idx
+          when 0
+            columns.values.should eq ['simple', 'foo', 'matz']
+          when 1
+            columns.values.should eq ['workbook', nil, 'is']
+          when 2
+            columns.values.should eq ['sheet1', 'foobaaa', 'nice']
+          end
+        end
+      end
+
+      context "with argument 1" do
+        it "should read from second column, index is started 0" do
+          @sheet.each_column_with_index(1) do |column_range, idx|
+            case idx
+            when 0
+              column_range.values.should eq ['workbook', nil, 'is']
+            when 1
+              column_range.values.should eq ['sheet1', 'foobaaa', 'nice']
+            end
+          end
+        end
+      end
+    end
+
+  end
+end

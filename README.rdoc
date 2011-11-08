@@ -1,0 +1,108 @@
+= WrapExcel
+
+== Description
+
+WrapExcel is a to wrap the win32ole, and easy to use Excel operations with ruby.
+
+== Requirements
+
+* ruby 1.9.2 or higher (platform is windows)
+
+== Install
+
+  gem install wrap_excel
+
+== Usage
+=== access book
+
+Read with block.
+
+  WrapExcel::Book.open('./sample.xls') do |book|
+    # do something
+  end
+
+Read without block.
+
+  book = WrapExcel::Book.open('./sample.xls')
+  book.close
+
+Options are the following.
+
+* read_only:: boolean default true
+* displayalerts:: boolean default false
+* visible:: boolean false
+
+=== access sheet
+
+Sheet object can access with #[] method.
+
+  sheet = book[0]
+
+Access with sheet name.
+
+    book['Sheet1']
+
+=== access row or column
+
+Sheet object is included enumerable. Use #each_column or #each_row or #each method.
+
+  sheet.each do |cell|
+    # do something with cell
+    # read every row every column
+  end
+
+  sheet.each_row do |row|
+    # do something with row_range
+  end
+
+  sheet.each_column do |column_range|
+    # do something with column_range
+  end
+
+=== access cell
+
+Read from sheet object.
+
+  sheet[0, 0]  => first cell.
+
+Read from range object
+
+  row_range[0]  => first cell in row_range
+  column_range[1] => second cell in column_range
+
+=== write excel
+
+Can save an existing file.
+
+  WrapExcel::Book.open('./sample.xls') do |book|
+    # do something
+    book.save
+  end
+
+or
+
+  book = WrapExcel::Book.open('./sample.xls')
+  book.save
+  book.close
+
+Can not save new file.
+
+=== Want to do more things
+
+All WrapExcel object include win32ole instance. If you want to do something that not provide a function, you can use win32ole methods.
+
+== Support
+
+Report issues and feature requests to github Issues. [https://github.com/tomiacannondale/wrap_excel/issues]
+
+== Collaborate
+
+Please pull request on github.
+
+== Author
+
+tomi [tomiacannondale@gmail.com]
+
+== License
+
+MIT License. For more imformation, please see LICENSE.
