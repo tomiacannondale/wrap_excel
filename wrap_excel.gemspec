@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = WrapExcel::VERSION
   s.authors     = ["tomi"]
   s.email       = ["tomiacannondale@gmail.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/tomiacannondale/wrap_excel"
   s.summary     = "WrapExcel is a wrapper library that specializes in the operation of Excel win32ole."
   s.description = "WrapExcel is to wrap the win32ole, and easy to use Excel operations with ruby. Detailed description please see the README."
 
