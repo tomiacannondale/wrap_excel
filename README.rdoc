@@ -28,13 +28,13 @@ Read without block.
 
 Options are the following.
 
-* read_only:: boolean default true
-* displayalerts:: boolean default false
-* visible:: boolean false
+[read_only] boolean(default true)
+[displayalerts] boolean(default false)
+[visible] boolean(default false)
 
 === access sheet
 
-Sheet object can access with #[] method.
+Sheet object can access with Book#[] method.
 
   sheet = book[0]
 
@@ -44,7 +44,7 @@ Access with sheet name.
 
 === access row or column
 
-Sheet object is included enumerable. Use #each_column or #each_row or #each method.
+Sheet object is included enumerable. Use Sheet#each_column or Sheet#each_row or Sheet#each method.
 
   sheet.each do |cell|
     # do something with cell
@@ -93,7 +93,7 @@ All WrapExcel object include win32ole instance. If you want to do something that
 
 == Support
 
-Report issues and feature requests to github Issues. [https://github.com/tomiacannondale/wrap_excel/issues]
+Report issues and feature requests to github Issues. https://github.com/tomiacannondale/wrap_excel/issues
 
 == Collaborate
 
@@ -101,7 +101,7 @@ Please pull request on github.
 
 == Author
 
-tomi [tomiacannondale@gmail.com]
+tomi mailto:tomiacannondale@gmail.com
 
 == License
 

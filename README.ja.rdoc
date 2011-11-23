@@ -28,13 +28,13 @@ WrapExcelはwin32oleをラップし、rubyによるExcelオペレーションを
 
 オプションは以下の通りです。
 
-* read_only:: boolean default true
-* displayalerts:: boolean default false
-* visible:: boolean false
+[read_only] boolean(default true)
+[displayalerts] boolean(default false)
+[visible] boolean(default false)
 
 === sheetへのアクセス
 
-sheetオブジェクトへは #[] メソッドでアクセス出来ます。
+sheetオブジェクトへは Book#[] メソッドでアクセス出来ます。
 
   sheet = book[0]
 
@@ -44,7 +44,7 @@ sheetオブジェクトへは #[] メソッドでアクセス出来ます。
 
 === 行または列へのアクセス
 
-sheetオブジェクトはenumerableをインクルードしています。#each_column or #each_row or #each メソッドが使用できます。
+sheetオブジェクトはenumerableをインクルードしています。Sheet#each_column or Sheet#each_row or Sheet#each メソッドが使用できます。
 
   sheet.each do |cell|
     # do something with cell
@@ -93,7 +93,7 @@ rangeオブジェクトからのアクセス。
 
 == サポート
 
-問題を報告したり、機能追加の要望する場合はgithubのIssuesに登録してください。 [https://github.com/tomiacannondale/wrap_excel/issues]
+問題を報告したり、機能追加の要望する場合はgithubのIssuesに登録してください。 https://github.com/tomiacannondale/wrap_excel/issues
 
 == 共同作業
 
@@ -101,8 +101,8 @@ githubのpull requestをしてください。
 
 == 開発者
 
-tomi [tomiacannondale@gmail.com]
+tomi mailto:tomiacannondale@gmail.com
 
 == ライセンス
 
-MITライセンスです。詳細はLICENSEを参照してください。
+MITライセンスです。詳細は LICENSE を参照してください。
