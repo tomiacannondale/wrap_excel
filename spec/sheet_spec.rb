@@ -169,5 +169,15 @@ describe WrapExcel::Sheet do
       end
     end
 
+    describe "#method_missing" do
+      it "can access COM method" do
+        @sheet.Cells(1,1).Value.should eq 'simple'
+      end
+
+      context "unknown method" do
+        it { expect { @sheet.hogehogefoo }.to raise_error }
+      end
+    end
+
   end
 end

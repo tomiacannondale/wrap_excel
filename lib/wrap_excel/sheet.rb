@@ -61,5 +61,9 @@ module WrapExcel
         yield WrapExcel::Range.new(column_range), (column_range.column - 1 - offset)
       end
     end
+
+    def method_missing(id, *args)
+      @sheet.send(id, *args)
+    end
   end
 end
