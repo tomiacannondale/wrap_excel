@@ -33,6 +33,13 @@ describe WrapExcel::Cell do
         @cell.value.should eq 'fooooo'
       end
     end
+
+    describe "#method_missing" do
+      context "unknown method" do
+        it { expect { @cell.hogehogefoo }.to raise_error }
+      end
+    end
+
   end
 
   context "open merge_cells.xls" do
