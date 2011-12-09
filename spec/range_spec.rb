@@ -66,4 +66,14 @@ describe WrapExcel::Range do
       end
     end
   end
+
+  describe "#method_missing" do
+    it "can access COM method" do
+      @range.Range(@range.Cells.Item(1), @range.Cells.Item(3)).value.should eq [@range.values(0..2)]
+    end
+
+    context "unknown method" do
+      it { expect { @range.hogehogefoo}.to raise_error }
+    end
+  end
 end
