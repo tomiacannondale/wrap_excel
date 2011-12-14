@@ -29,9 +29,9 @@ module WrapExcel
     end
 
     def each
-      @sheet.UsedRange.Rows.each do |row_range|
-        row_range.Cells.each do |cell|
-          yield WrapExcel::Cell.new(cell)
+      each_row do |row_range|
+        row_range.each do |cell|
+          yield cell
         end
       end
     end

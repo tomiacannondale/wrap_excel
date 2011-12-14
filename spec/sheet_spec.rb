@@ -79,6 +79,28 @@ describe WrapExcel::Sheet do
           end
         end
       end
+
+      context "read sheet with blank" do
+        include_context "sheet 'open book with blank'"
+
+        it 'should get from ["A1"]' do
+          @sheet_with_blank.each_with_index do |cell, i|
+            case i
+            when 5
+              cell.value.should be_nil
+            when 6
+              cell.value.should eq 'simple'
+            when 7
+              cell.value.should be_nil
+            when 8
+              cell.value.should eq 'workbook'
+            when 9
+              cell.value.should eq 'sheet1'
+            end
+          end
+        end
+      end
+
     end
 
     describe "#each_row" do
