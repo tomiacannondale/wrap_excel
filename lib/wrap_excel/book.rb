@@ -15,6 +15,7 @@ module WrapExcel
       @winapp = WIN32OLE.new('Excel.Application')
       @winapp.DisplayAlerts = options[:displayalerts]
       @winapp.Visible = options[:visible]
+      WIN32OLE.const_load(@winapp, WrapExcel) unless WrapExcel.const_defined?(:CONSTANTS)
       @book = @winapp.Workbooks.Open(file,{ 'ReadOnly' => options[:read_only] })
 
       if block

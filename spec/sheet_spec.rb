@@ -13,6 +13,17 @@ describe WrapExcel::Sheet do
     rm_tmp(@dir)
   end
 
+  shared_context "sheet 'open book with blank'" do
+    before do
+      @book_with_blank = WrapExcel::Book.open(@dir + '/book_with_blank.xls')
+      @sheet_with_blank = @book_with_blank[0]
+    end
+
+    after do
+      @book_with_blank.close
+    end
+  end
+
   describe "access sheet name" do
     describe "#name" do
       it 'get sheet1 name' do
@@ -89,6 +100,28 @@ describe WrapExcel::Sheet do
           end
         end
       end
+
+      context "read sheet with blank" do
+        include_context "sheet 'open book with blank'"
+
+        it 'should get from ["A1"]' do
+          @sheet_with_blank.each_row do |rows|
+            case rows.row - 1
+            when 0
+              rows.values.should eq [nil, nil, nil, nil, nil]
+            when 1
+              rows.values.should eq [nil, 'simple', nil, 'workbook', 'sheet1']
+            when 2
+              rows.values.should eq [nil, 'foo', nil, nil, 'foobaaa']
+            when 3
+              rows.values.should eq [nil, nil, nil, nil, nil]
+            when 4
+              rows.values.should eq [nil, 'matz', nil, 'is', 'nice']
+            end
+          end
+        end
+      end
+
     end
 
     describe "#each_row_with_index" do

@@ -6,6 +6,8 @@ module WrapExcel
 
     def initialize(win32_worksheet)
       @sheet = win32_worksheet
+      @end_row = @sheet.UsedRange.SpecialCells(WrapExcel::XlLastCell).Row
+      @end_column = @sheet.UsedRange.SpecialCells(WrapExcel::XlLastCell).Column
     end
 
     def name
@@ -36,9 +38,9 @@ module WrapExcel
 
     def each_row(offset = 0)
       offset += 1
-      @sheet.UsedRange.Rows.each do |row_range|
-        next if row_range.row < offset
-        yield WrapExcel::Range.new(row_range)
+      1.upto(@end_row) do |row|
+        next if row < offset
+        yield WrapExcel::Range.new(@sheet.Range(@sheet.Cells(row, 1), @sheet.Cells(row, @end_column)))
       end
     end
 
