@@ -52,9 +52,9 @@ module WrapExcel
 
     def each_column(offset = 0)
       offset += 1
-      @sheet.UsedRange.Columns.each do |column_range|
-        next if column_range.column < offset
-        yield WrapExcel::Range.new(column_range)
+      1.upto(@end_column) do |column|
+        next if column < offset
+        yield WrapExcel::Range.new(@sheet.Range(@sheet.Cells(1, column), @sheet.Cells(@end_row, column)))
       end
     end
 

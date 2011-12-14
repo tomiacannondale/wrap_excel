@@ -172,6 +172,27 @@ describe WrapExcel::Sheet do
           end
         end
       end
+
+      context "read sheet with blank" do
+        include_context "sheet 'open book with blank'"
+
+        it 'should get from ["A1"]' do
+          @sheet_with_blank.each_column do |columns|
+            case columns.column- 1
+            when 0
+              columns.values.should eq [nil, nil, nil, nil, nil]
+            when 1
+              columns.values.should eq [nil, 'simple', 'foo', nil, 'matz']
+            when 2
+              columns.values.should eq [nil, nil, nil, nil, nil]
+            when 3
+              columns.values.should eq [nil, 'workbook', nil, nil, 'is']
+            when 4
+              columns.values.should eq [nil, 'sheet1', 'foobaaa', nil, 'nice']
+            end
+          end
+        end
+      end
     end
 
     describe "#each_column_with_index" do
