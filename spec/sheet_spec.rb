@@ -13,6 +13,26 @@ describe WrapExcel::Sheet do
     rm_tmp(@dir)
   end
 
+  describe ".initialize" do
+    context "when open sheet protected(with password is 'protect')" do
+      before do
+        @book_protect = WrapExcel::Book.new(@dir + '/protected_sheet.xls', :visible => true)
+        @protected_sheet = @book_protect['protect']
+      end
+
+      after do
+        @book_protect.close
+      end
+
+      it { @protected_sheet.ProtectContents.should be_true }
+
+      it "protected sheet can't be write" do
+        expect { @protected_sheet[0,0] = 'write' }.to raise_error
+      end
+    end
+
+  end
+
   shared_context "sheet 'open book with blank'" do
     before do
       @book_with_blank = WrapExcel::Book.open(@dir + '/book_with_blank.xls')

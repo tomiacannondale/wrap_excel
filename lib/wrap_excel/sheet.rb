@@ -6,8 +6,15 @@ module WrapExcel
 
     def initialize(win32_worksheet)
       @sheet = win32_worksheet
-      @end_row = @sheet.UsedRange.SpecialCells(WrapExcel::XlLastCell).Row
-      @end_column = @sheet.UsedRange.SpecialCells(WrapExcel::XlLastCell).Column
+      if @sheet.ProtectContents
+        @sheet.Unprotect
+        @end_row = @sheet.UsedRange.SpecialCells(WrapExcel::XlLastCell).Row
+        @end_column = @sheet.UsedRange.SpecialCells(WrapExcel::XlLastCell).Column
+        @sheet.Protect
+      else
+        @end_row = @sheet.UsedRange.SpecialCells(WrapExcel::XlLastCell).Row
+        @end_column = @sheet.UsedRange.SpecialCells(WrapExcel::XlLastCell).Column
+      end
     end
 
     def name
