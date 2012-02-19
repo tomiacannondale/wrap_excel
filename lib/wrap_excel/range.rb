@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 module WrapExcel
   class Range
+    include Enumerable
+
     def initialize(win32_range)
       @range = win32_range
     end
