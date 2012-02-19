@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require File.join(File.dirname(__FILE__), './spec_helper')
 
-describe WrapExcel::Cygwin, :if => RUBY_PLATFORM =~ /cygwin/ do
+describe "on cygwin",  :if => RUBY_PLATFORM =~ /cygwin/ do
   describe ".cygpath" do
     context "cygwin path is '/cygdrive/c/Users'" do
       context "with '-w' options" do
