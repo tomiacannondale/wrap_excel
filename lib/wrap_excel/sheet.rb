@@ -71,6 +71,11 @@ module WrapExcel
       end
     end
 
+    def row_range(row, range = nil)
+      range ||= 0..@end_column - 1
+      WrapExcel::Range.new(@sheet.Range(@sheet.Cells(row + 1, range.min + 1), @sheet.Cells(row + 1, range.max + 1)))
+    end
+
     def method_missing(id, *args)
       @sheet.send(id, *args)
     end

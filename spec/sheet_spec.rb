@@ -265,6 +265,31 @@ describe WrapExcel::Sheet do
       end
     end
 
+    describe "#row_range" do
+      context "with second argument" do
+        before do
+          @row_range = @sheet.row_range(0, 1..2)
+        end
+
+        it { @row_range.should be_kind_of WrapExcel::Range }
+
+        it "should get range cells of second argument" do
+          @row_range.values.should eq ['workbook', 'sheet1']
+        end
+      end
+
+      context "without second argument" do
+        before do
+          @row_range = @sheet.row_range(2)
+        end
+
+        it "should get all cells" do
+          @row_range.values.should eq ['matz', 'is', 'nice']
+        end
+      end
+
+    end
+
     describe "#method_missing" do
       it "can access COM method" do
         @sheet.Cells(1,1).Value.should eq 'simple'
