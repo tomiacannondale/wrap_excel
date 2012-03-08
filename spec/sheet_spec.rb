@@ -290,6 +290,31 @@ describe WrapExcel::Sheet do
 
     end
 
+    describe "#col_range" do
+      context "with second argument" do
+        before do
+          @col_range = @sheet.col_range(0, 1..2)
+        end
+
+        it { @col_range.should be_kind_of WrapExcel::Range }
+
+        it "should get range cells of second argument" do
+          @col_range.values.should eq ['foo', 'matz']
+        end
+      end
+
+      context "without second argument" do
+        before do
+          @col_range = @sheet.col_range(1)
+        end
+
+        it "should get all cells" do
+          @col_range.values.should eq ['workbook', nil, 'is']
+        end
+      end
+
+    end
+
     describe "#method_missing" do
       it "can access COM method" do
         @sheet.Cells(1,1).Value.should eq 'simple'
