@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8; mode: ruby -*-
 $:.push File.expand_path("../lib", __FILE__)
 require "wrap_excel/version"
 
