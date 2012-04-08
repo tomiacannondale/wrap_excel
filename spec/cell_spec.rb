@@ -53,8 +53,8 @@ describe WrapExcel::Cell do
     end
 
     it "merged cell get same value" do
-      @sheet[0, 0].value.should eq 'merged cell'
-      @sheet[0, 1].value.should eq 'merged cell'
+      @sheet[0, 0].value.should be_nil
+      @sheet[1, 0].value.should eq 'first merged'
     end
 
     it "set merged cell" do
