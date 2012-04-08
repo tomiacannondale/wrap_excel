@@ -46,6 +46,47 @@ describe WrapExcel::Range do
       end
       it { @range.values.should eq ['simple', 'foo', 'matz'] }
     end
+
+    context "read 'merge_cells.xls'" do
+      before do
+        @merge_cells_book = WrapExcel::Book.open("#{@dir}/merge_cells.xls")
+        @merge_cells_sheet = @merge_cells_book[0]
+      end
+
+      after do
+        @merge_cells_book.close
+      end
+
+      context "only merged_cell" do
+        before do
+          @only_merged_range = @merge_cells_sheet.row_range(3)
+        end
+
+        context "without argument" do
+          it { @only_merged_range.values.should eq ['merged', 'merged', 'merged', 'merged'] }
+        end
+
+        context "with (1..2)" do
+          it { @only_merged_range.values(1..2).should eq ['merged', 'merged'] }
+        end
+
+      end
+
+      context "mix merged cell and no merge cell" do
+        before do
+          @mix_merged_no_merged_range = @merge_cells_sheet.row_range(1)
+        end
+
+        context "without argument" do
+          it { @mix_merged_no_merged_range.values.should eq ['first merged', 'first merged', 'first merged', nil] }
+        end
+
+        context "with (2..3)" do
+          it { @mix_merged_no_merged_range.values(2..3).should eq ['first merged', nil] }
+        end
+
+      end
+    end
   end
 
   describe "#[]" do

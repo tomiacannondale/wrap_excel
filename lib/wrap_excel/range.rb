@@ -14,14 +14,8 @@ module WrapExcel
     end
 
     def values(range = nil)
-      if range
-        min = range.min + 1
-        max = range.max + 1
-        result = @range.Range(@range.Cells.Item(min), @range.Cells(max)).value
-        result.is_a?(Array) ? result[0] : [result]
-      else
-        @range.Cells.value.flatten
-      end
+      result = self.map(&:value).flatten
+      range ? result.each_with_index.select{ |row_or_column, i| range.include?(i) }.map{ |i| i[0] } : result
     end
 
     def [] index
