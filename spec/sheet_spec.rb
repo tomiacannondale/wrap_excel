@@ -235,6 +235,32 @@ describe WrapExcel::Sheet do
           end
         end
       end
+
+      context "read sheet which last cell is merged" do
+        before do
+          @book_merge_cells = WrapExcel::Book.open(@dir + '/merge_cells.xls')
+          @sheet_merge_cell = @book_merge_cells[0]
+        end
+
+        after do
+          @book_merge_cells.close
+        end
+
+        it "should get from ['A1'] to ['C2']" do
+          columns_values = []
+          @sheet_merge_cell.each_column do |columns|
+            columns_values << columns.values
+          end
+          columns_values.should eq [
+                                [nil, 'first merged', nil, 'merged'],
+                                [nil, 'first merged', 'first', 'merged'],
+                                [nil, 'first merged', 'second', 'merged'],
+                                [nil, nil, 'third', 'merged']
+                           ]
+        end
+
+      end
+
     end
 
     describe "#each_column_with_index" do

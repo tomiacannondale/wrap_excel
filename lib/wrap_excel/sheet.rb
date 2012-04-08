@@ -8,12 +8,12 @@ module WrapExcel
       @sheet = win32_worksheet
       if @sheet.ProtectContents
         @sheet.Unprotect
-        @end_row = @sheet.UsedRange.SpecialCells(WrapExcel::XlLastCell).Row
-        @end_column = @sheet.UsedRange.SpecialCells(WrapExcel::XlLastCell).Column
+        @end_row = last_row
+        @end_column = last_column
         @sheet.Protect
       else
-        @end_row = @sheet.UsedRange.SpecialCells(WrapExcel::XlLastCell).Row
-        @end_column = @sheet.UsedRange.SpecialCells(WrapExcel::XlLastCell).Column
+        @end_row = last_row
+        @end_column = last_column
       end
     end
 
@@ -83,6 +83,21 @@ module WrapExcel
 
     def method_missing(id, *args)
       @sheet.send(id, *args)
+    end
+
+    private
+    def last_row
+      special_last_row = @sheet.UsedRange.SpecialCells(WrapExcel::XlLastCell).Row
+      used_last_row = @sheet.UsedRange.Rows.Count
+
+      special_last_row >= used_last_row ? special_last_row : used_last_row
+    end
+
+    def last_column
+      special_last_column = @sheet.UsedRange.SpecialCells(WrapExcel::XlLastCell).Column
+      used_last_column = @sheet.UsedRange.Columns.Count
+
+      special_last_column >= used_last_column ? special_last_column : used_last_column
     end
   end
 end
