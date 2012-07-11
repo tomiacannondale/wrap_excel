@@ -160,4 +160,20 @@ describe WrapExcel::Book do
     end
   end
 
+  describe ".save" do
+    context "when open with read only" do
+      before do
+        @book = WrapExcel::Book.open(@simple_file)
+      end
+
+      it {
+        expect {
+          @book.save
+        }.to raise_error(IOError,
+                     "Not opened for writing(open with :read_only option)")
+      }
+    end
+
+  end
+
 end
