@@ -35,6 +35,7 @@ module WrapExcel
     end
 
     def save
+      raise IOError, "Not opened for writing(open with :read_only option)" if @options[:read_only]
       @book.save
     end
 
