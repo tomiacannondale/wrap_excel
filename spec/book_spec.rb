@@ -76,4 +76,88 @@ describe WrapExcel::Book do
       }
     end
   end
+
+  describe "#add_sheet" do
+    before do
+      @book = WrapExcel::Book.open(@simple_file)
+      @sheet = @book[0]
+    end
+
+    after do
+      @book.close
+    end
+
+    context "only first argument" do
+      it "should add worksheet" do
+        expect { @book.add_sheet @sheet }.to change{ @book.book.Worksheets.Count }.from(3).to(4)
+      end
+
+      it "should return copyed sheet" do
+        sheet = @book.add_sheet @sheet
+        copyed_sheet = @book.book.Worksheets.Item(@book.book.Worksheets.Count)
+        sheet.name.should eq copyed_sheet.name
+      end
+    end
+
+    context "with first argument" do
+      context "with second argument is {:as => 'copyed_name'}" do
+        it "copyed sheet name should be 'copyed_name'" do
+          @book.add_sheet(@sheet, :as => 'copyed_name').name.should eq 'copyed_name'
+        end
+      end
+
+      context "with second argument is {:before => @sheet}" do
+        it "should add the first sheet" do
+          @book.add_sheet(@sheet, :before => @sheet).name.should eq @book[0].name
+        end
+      end
+
+      context "with second argument is {:after => @sheet}" do
+        it "should add the first sheet" do
+          @book.add_sheet(@sheet, :after => @sheet).name.should eq @book[1].name
+        end
+      end
+
+      context "with second argument is {:before => @book[2], :after => @sheet}" do
+        it "should arguments in the first is given priority" do
+          @book.add_sheet(@sheet, :before => @book[2], :after => @sheet).name.should eq @book[2].name
+        end
+      end
+
+    end
+
+    context "without first argument" do
+      context "second argument is {:as => 'new sheet'}" do
+        it "should return new sheet" do
+          @book.add_sheet(:as => 'new sheet').name.should eq 'new sheet'
+        end
+      end
+
+      context "second argument is {:before => @sheet}" do
+        it "should add the first sheet" do
+          @book.add_sheet(:before => @sheet).name.should eq @book[0].name
+        end
+      end
+
+      context "second argument is {:after => @sheet}" do
+        it "should add the second sheet" do
+          @book.add_sheet(:after => @sheet).name.should eq @book[1].name
+        end
+      end
+
+    end
+
+    context "without argument" do
+      it "should add empty sheet" do
+        expect { @book.add_sheet }.to change{ @book.book.Worksheets.Count }.from(3).to(4)
+      end
+
+      it "shoule return copyed sheet" do
+        sheet = @book.add_sheet
+        copyed_sheet = @book.book.Worksheets.Item(@book.book.Worksheets.Count)
+        sheet.name.should eq copyed_sheet.name
+      end
+    end
+  end
+
 end
