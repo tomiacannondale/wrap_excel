@@ -49,6 +49,23 @@ module WrapExcel
       end
     end
 
+    def add_sheet(sheet = nil, options = { })
+      if sheet.is_a? Hash
+        options = sheet
+        sheet = nil
+      end
+
+      new_sheet_name = options.delete(:as)
+
+      after_or_before, base_sheet = options.first || [:after, WrapExcel::Sheet.new(@book.Worksheets.Item(@book.Worksheets.Count))]
+      base_sheet = base_sheet.sheet
+      sheet ? sheet.Copy({ after_or_before => base_sheet }) : @book.WorkSheets.Add({ after_or_before => base_sheet })
+
+      new_sheet = WrapExcel::Sheet.new(@winapp.Activesheet)
+      new_sheet.name = new_sheet_name if new_sheet_name
+      new_sheet
+    end
+
     def self.open(file, options={ }, &block)
       new(file, options, &block)
     end
