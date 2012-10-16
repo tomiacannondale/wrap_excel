@@ -74,14 +74,14 @@ rangeオブジェクトからのアクセス。
 
 既存のファイルは保存可能です。
 
-  WrapExcel::Book.open('./sample.xls') do |book|
+  WrapExcel::Book.open('./sample.xls', :read_only => false) do |book|
     # do something
     book.save
   end
 
 もしくは
 
-  book = WrapExcel::Book.open('./sample.xls')
+  book = WrapExcel::Book.open('./sample.xls', :read_only => false)
   book.save
   book.close
 

@@ -74,14 +74,14 @@ Read from range object
 
 Can save an existing file.
 
-  WrapExcel::Book.open('./sample.xls') do |book|
+  WrapExcel::Book.open('./sample.xls', :read_only => false) do |book|
     # do something
     book.save
   end
 
 or
 
-  book = WrapExcel::Book.open('./sample.xls')
+  book = WrapExcel::Book.open('./sample.xls', :read_only => false)
   book.save
   book.close
 
