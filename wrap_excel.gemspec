@@ -25,8 +25,8 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.add_development_dependency "rake", '>= 0.9.2'
   s.add_development_dependency "rspec", '>= 2.6.0'
-  s.add_development_dependency "rb-fchange"
-  s.add_development_dependency "rb-notifu"
-  s.add_development_dependency "win32console"
-  s.add_development_dependency "guard-rspec"
+  s.add_development_dependency "rb-fchange", '>= 0.0.5'
+  s.add_development_dependency "wdm", '>= 0.0.3'
+  s.add_development_dependency "win32console", '>= 1.3.2'
+  s.add_development_dependency "guard-rspec", '>= 2.1.1'
 end
