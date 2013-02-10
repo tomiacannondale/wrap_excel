@@ -43,6 +43,17 @@ describe WrapExcel::Book do
         end
       end
     end
+
+    describe "WIN32OLE#GetAbsolutePathName" do
+      it "'~' should be HOME directory" do
+        path = '~/Abrakadabra.xlsx'
+        expected_path = Regexp.new(File.expand_path(path).gsub(/\//, "."))
+        expect {
+          WrapExcel::Book.open(path)
+        }.to raise_error(WIN32OLERuntimeError, expected_path)
+      end
+    end
+
   end
 
   describe 'access sheet' do

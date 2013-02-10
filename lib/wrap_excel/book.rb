@@ -10,13 +10,11 @@ module WrapExcel
         :displayalerts => false,
         :visible => false
       }.merge(options)
-      file = WrapExcel::Cygwin.cygpath('-w', file) if RUBY_PLATFORM =~ /cygwin/
-      file = WIN32OLE.new('Scripting.FileSystemObject').GetAbsolutePathName(file)
       @winapp = WIN32OLE.new('Excel.Application')
       @winapp.DisplayAlerts = @options[:displayalerts]
       @winapp.Visible = @options[:visible]
       WIN32OLE.const_load(@winapp, WrapExcel) unless WrapExcel.const_defined?(:CONSTANTS)
-      @book = @winapp.Workbooks.Open(file,{ 'ReadOnly' => @options[:read_only] })
+      @book = @winapp.Workbooks.Open(absolute_path(file),{ 'ReadOnly' => @options[:read_only] })
 
       if block
         begin
@@ -69,6 +67,13 @@ module WrapExcel
 
     def self.open(file, options={ }, &block)
       new(file, options, &block)
+    end
+
+    private
+    def absolute_path(file)
+      file = File.expand_path(file)
+      file = WrapExcel::Cygwin.cygpath('-w', file) if RUBY_PLATFORM =~ /cygwin/
+      WIN32OLE.new('Scripting.FileSystemObject').GetAbsolutePathName(file)
     end
   end
 end
