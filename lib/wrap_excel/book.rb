@@ -4,6 +4,12 @@ module WrapExcel
   class Book
     attr_reader :book
 
+    class << self
+      def open(file, options={ }, &block)
+        new(file, options, &block)
+      end
+    end
+
     def initialize(file, options={ }, &block)
       @options = {
         :read_only => true,
@@ -63,10 +69,6 @@ module WrapExcel
       new_sheet = WrapExcel::Sheet.new(@winapp.Activesheet)
       new_sheet.name = new_sheet_name if new_sheet_name
       new_sheet
-    end
-
-    def self.open(file, options={ }, &block)
-      new(file, options, &block)
     end
 
     private
