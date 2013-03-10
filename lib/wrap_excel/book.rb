@@ -11,6 +11,10 @@ module WrapExcel
     end
 
     def initialize(file, options={ }, &block)
+      unless caller[1] =~ /book.rb:\d+:in\s+`open'$/
+        warn "DEPRECATION WARNING: WrapExcel::Book.new and WrapExcel::Book.open will be split. If you open existing file, please use WrapExcel::Book.open.(call from #{caller[1]})"
+      end
+
       @options = {
         :read_only => true,
         :displayalerts => false,
