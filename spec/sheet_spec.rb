@@ -16,7 +16,7 @@ describe WrapExcel::Sheet do
   describe ".initialize" do
     context "when open sheet protected(with password is 'protect')" do
       before do
-        @book_protect = WrapExcel::Book.new(@dir + '/protected_sheet.xls', :visible => true)
+        @book_protect = WrapExcel::Book.open(@dir + '/protected_sheet.xls', :visible => true)
         @protected_sheet = @book_protect['protect']
       end
 
