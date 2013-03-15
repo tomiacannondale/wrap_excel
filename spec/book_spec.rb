@@ -187,7 +187,7 @@ describe WrapExcel::Book do
     end
   end
 
-  describe ".save" do
+  describe "#save" do
     context "when open with read only" do
       before do
         @book = WrapExcel::Book.open(@simple_file)
