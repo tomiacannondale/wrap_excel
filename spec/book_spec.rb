@@ -201,6 +201,18 @@ describe WrapExcel::Book do
       }
     end
 
+    context "with argument" do
+      before do
+        WrapExcel::Book.open(@simple_file, :read_only => false) do |book|
+          book.save("#{@dir}/simple_save.xlsx")
+        end
+      end
+
+      it "should save to 'simple_save.xlsx'" do
+        File.exist?(@dir + "/simple_save.xlsx").should be_true
+      end
+    end
+
   end
 
 end

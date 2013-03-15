@@ -42,9 +42,20 @@ module WrapExcel
       @winapp.Quit
     end
 
-    def save
+    def save(file = nil)
       raise IOError, "Not opened for writing(open with :read_only option)" if @options[:read_only]
-      @book.save
+      return @book.save unless file
+
+      dirname, basename = File.split(file)
+      extname = File.extname(basename)
+      basename = File.basename(basename)
+      case extname
+      when '.xls'
+        file_format = WrapExcel::XlExcel8
+      when '.xlsx'
+        file_format = WrapExcel::XlOpenXMLWorkbook
+      end
+      @book.SaveAs(absolute_path(File.join(dirname, basename)), file_format)
     end
 
     def [] sheet
