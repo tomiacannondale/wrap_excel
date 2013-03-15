@@ -85,6 +85,15 @@ or
   book.save
   book.close
 
+Can save an another file name.
+
+  WrapExcel::Book.open('./sample.xls', :read_only => false) do |book|
+    # do something
+    book.save './another_file.xls'
+  end
+
+Save to another_file.xls
+
 Can not save new file.
 
 === Want to do more things

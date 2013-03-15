@@ -85,6 +85,15 @@ rangeオブジェクトからのアクセス。
   book.save
   book.close
 
+別のファイル名を保存することができます。
+
+  WrapExcel::Book.open('./sample.xls', :read_only => false) do |book|
+    # do something
+    book.save './another_file.xls'
+  end
+
+another_file.xlsに保存します。
+
 新規ファイルの保存は出来ません。
 
 === Want to do more things
